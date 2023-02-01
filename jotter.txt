@@ -1,0 +1,22 @@
+Entities
+    player, game, move
+
+
+    player:
+        name
+        relation -> game[]
+
+    game:
+        relation -> player1_move : move
+        relation -> player2_move : move
+
+    move:
+        choice : enum ==> rock, paper, scissor
+        relation -> player
+        relation -> game
+
+setup
+    docker
+        DB
+        api (rest / graphql ?)
+
