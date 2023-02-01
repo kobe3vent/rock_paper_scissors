@@ -7,8 +7,9 @@ Entities
         relation -> game[]
 
     game:
+        number
         relation -> player1_move : move
-        relation -> player2_move : move
+        relation -> cpu_move : move
 
     move:
         choice : enum ==> rock, paper, scissor
