@@ -8,16 +8,11 @@ Entities
 
     game:
         number
-        relation -> player1_move : move
-        relation -> cpu_move : move
+        rplayer1_move : move
+        cpu_move : move
 
-    move:
-        choice : enum ==> rock, paper, scissor
-        relation -> player
-        relation -> game
+    move: : enum ==> rock, paper, scissor
+     
 
-setup
-    docker
-        DB
-        api (rest / graphql ?)
+TODO: leaderboard
 

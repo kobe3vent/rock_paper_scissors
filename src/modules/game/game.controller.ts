@@ -1,28 +1,25 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Req } from '@nestjs/common';
 import { GameService } from './game.service';
 import { CreateGameDto } from './dto/create-game.dto';
+import { Game } from './entities/game.entity';
+import { Crud } from '@nestjsx/crud';
 
+@Crud({
+  model: {
+    type: Game,
+  },
+})
 @Controller('game')
 export class GameController {
-  constructor(private readonly gameService: GameService) {}
+  constructor(private readonly service: GameService) {}
 
   @Post()
-  create(@Body() createGameDto: CreateGameDto) {
-    return this.gameService.create(createGameDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.gameService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.gameService.findOne(+id);
+  create(@Body() createGameDto: CreateGameDto, @Req() req) {
+    return this.service.create(createGameDto, req.user);
   }
 
   @Get('/player:id')
   findGameByPlayerID(@Param('id') id: string) {
-    return this.gameService.getGameByPlayerID(id);
+    return this.service.getGamesByPlayerID(id);
   }
 }
