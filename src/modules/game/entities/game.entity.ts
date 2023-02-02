@@ -29,7 +29,7 @@ export class Game extends AbstractEntity {
   cpuChoice: MoveOptions;
 
   @Column({ type: 'boolean' })
-  winner: boolean;
+  playerWon: boolean;
 
   @ManyToOne(() => Player, (player: Player) => player.game)
   player: Player;

@@ -19,7 +19,6 @@ export class Player extends AbstractEntity {
   @Column({ type: 'text' })
   @IsString()
   password: string;
-  //TODO: hide password key on all queries
 
   @OneToMany(() => Game, (game: Game) => game.player)
   game: Game[];

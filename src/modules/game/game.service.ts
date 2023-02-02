@@ -29,7 +29,7 @@ export class GameService extends TypeOrmCrudService<Game> {
       return this.repo.save({
         playerChoice: this.PLAYER_INPUT[createGameDto.choice],
         cpuChoice,
-        winner: false,
+        playerWon: false,
         player,
         comment: 'It is a draw',
       });
@@ -43,7 +43,7 @@ export class GameService extends TypeOrmCrudService<Game> {
     return this.repo.save({
       playerChoice: this.PLAYER_INPUT[createGameDto.choice],
       cpuChoice,
-      winner: res,
+      playerWon: res,
       player,
       comment: res ? 'Player wins' : 'CPU wins',
     });
