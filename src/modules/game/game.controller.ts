@@ -28,8 +28,13 @@ export class GameController {
     return this.service.create(createGameDto, req.user);
   }
 
-  @Get('/player:id')
+  @Get('/player/:id')
   findGameByPlayerID(@Param('id') id: string) {
     return this.service.getGamesByPlayerID(id);
+  }
+
+  @Get('/leaderboard')
+  leaderboard() {
+    return this.service.leaderboard();
   }
 }

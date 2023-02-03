@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, OneToMany } from 'typeorm';
+import { AfterLoad, BeforeInsert, Column, Entity, OneToMany } from 'typeorm';
 import { AbstractEntity } from '../../../shared/entities/abstractEntity';
 import { Game } from '../../game/entities/game.entity';
 import { hash } from 'bcryptjs';
@@ -26,5 +26,10 @@ export class Player extends AbstractEntity {
   @BeforeInsert()
   async hashPassword(): Promise<void> {
     this.password = await hash(this.password, SALT);
+  }
+
+  @AfterLoad()
+  blankPassword() {
+    delete this.password;
   }
 }

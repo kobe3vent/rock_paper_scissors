@@ -59,6 +59,18 @@ export class GameService extends TypeOrmCrudService<Game> {
     return this.repo.find({ where: { player: { uuid: id } } });
   }
 
+  async leaderboard() {
+    return this.repo.find({
+      where: {
+        playerWon: true,
+      },
+      order: {
+        number: 'ASC',
+      },
+      relations: ['player'],
+    });
+  }
+
   private compareMoves(move1: MoveOptions, move2: MoveOptions): boolean {
     // move1 && move 2 should be checked prior. they cant be same
     return this.RULES[move1] === move2;
