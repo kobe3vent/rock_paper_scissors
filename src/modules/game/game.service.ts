@@ -17,6 +17,12 @@ export class GameService extends TypeOrmCrudService<Game> {
     PAPER: MoveOptions.ROCK,
   };
 
+  readonly gameComment = {
+    won: 'Player wins',
+    lost: 'CPU wins',
+    draw: 'It is a draw',
+  };
+
   readonly PLAYER_INPUT = [
     MoveOptions.ROCK,
     MoveOptions.PAPER,
@@ -31,7 +37,7 @@ export class GameService extends TypeOrmCrudService<Game> {
         cpuChoice,
         playerWon: false,
         player,
-        comment: 'It is a draw',
+        comment: this.gameComment.draw,
       });
     }
 
@@ -45,7 +51,7 @@ export class GameService extends TypeOrmCrudService<Game> {
       cpuChoice,
       playerWon: res,
       player,
-      comment: res ? 'Player wins' : 'CPU wins',
+      comment: res ? this.gameComment.won : this.gameComment.lost,
     });
   }
 

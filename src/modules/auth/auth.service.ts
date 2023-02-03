@@ -26,7 +26,7 @@ export class AuthService {
   }: {
     userName: string;
     password: string;
-  }): Promise<object> {
+  }): Promise<{ user: Partial<Player>; accessToken: string }> {
     const player = await this.validatePlayer(userName, password);
 
     const accessToken = await this.generateAccessToken(player);

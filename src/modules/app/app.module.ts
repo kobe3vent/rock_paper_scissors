@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { GameModule } from '../game/game.module';
 import { PlayerModule } from '../player/player.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -27,7 +25,7 @@ import { ConfigModule } from '@nestjs/config';
     PlayerModule,
     AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
