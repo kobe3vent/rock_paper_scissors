@@ -1,0 +1,17 @@
+version: '3'
+services:
+  test_database:
+    image: postgres:14.2
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
+    ports:
+      - 5435:5432
+    volumes:
+      - db-test:/var/lib/postgresql/testdata
+
+volumes:
+  db-test:
+    driver: local
