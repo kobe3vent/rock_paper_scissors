@@ -23,7 +23,7 @@ export class GameService extends TypeOrmCrudService<Game> {
     draw: 'It is a draw',
   };
 
-  readonly PLAYER_INPUT = [
+  public PLAYER_INPUT = [
     MoveOptions.ROCK,
     MoveOptions.PAPER,
     MoveOptions.SCISSORS,
@@ -76,7 +76,7 @@ export class GameService extends TypeOrmCrudService<Game> {
     return this.RULES[move1] === move2;
   }
 
-  private pickMove() {
+  pickMove() {
     //random pick one of the valid moves
     const possibleOptions = Object.values(this.RULES);
     const randomIndex = Math.round(Math.random() * 2);

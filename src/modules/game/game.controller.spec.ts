@@ -18,10 +18,11 @@ import { PlayerService } from '../player/player.service';
 import { Game, MoveOptions } from './entities/game.entity';
 import { GameController } from './game.controller';
 import { GameService } from './game.service';
-import * as request from 'supertest';
 
 let app: INestApplication;
 let controller: GameController;
+let gameService: GameService;
+let PLAYER_WON = false;
 
 beforeAll(async () => {
   const module: TestingModule = await Test.createTestingModule({
@@ -39,6 +40,8 @@ beforeAll(async () => {
   app = module.createNestApplication();
   app.useGlobalFilters(new TypeOrmExceptionFilter());
   controller = module.get<GameController>(GameController);
+  gameService = module.get<GameService>(GameService);
+
   await initDB(app.get(Connection));
 });
 afterAll(async () => {
@@ -57,6 +60,7 @@ describe('GameController', () => {
       { user: registeredPlayerEntity },
     );
 
+    PLAYER_WON = res.playerWon;
     expect(res.playerChoice).toBe(MoveOptions.ROCK);
     expect(res.number).toBe(1);
     expect(typeof res.playerWon).toBe('boolean');
@@ -64,11 +68,22 @@ describe('GameController', () => {
   });
 
   it('should get all games player has played', async () => {
-    const res = await controller.findGameByPlayerID(
-      registeredPlayerEntity.uuid,
-    );
+    const res = await controller.findGameByPlayerID({
+      user: { uuid: registeredPlayerEntity.uuid },
+    });
 
     expect(res.length).toBe(1);
     expect(res).not.toBe([]);
+  });
+
+  it('should show leaderboard', async () => {
+    const res = await controller.leaderboard();
+    expect(res.length).toBe(PLAYER_WON ? 1 : 0);
+  });
+
+  it('should show cpu is not cheating', () => {
+    const res = controller.cpuChoice();
+    expect(res.options).toBe(gameService.PLAYER_INPUT);
+    expect(gameService.PLAYER_INPUT).toContain(res.cpuChoice);
   });
 });

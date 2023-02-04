@@ -16,7 +16,7 @@ export class Player extends AbstractEntity {
   username: string;
 
   @IsOptional({ groups: [UPDATE] })
-  @Column({ type: 'text' })
+  @Column({ type: 'text', select: false })
   @IsString()
   password: string;
 
@@ -26,10 +26,5 @@ export class Player extends AbstractEntity {
   @BeforeInsert()
   async hashPassword(): Promise<void> {
     this.password = await hash(this.password, SALT);
-  }
-
-  @AfterLoad()
-  blankPassword() {
-    delete this.password;
   }
 }

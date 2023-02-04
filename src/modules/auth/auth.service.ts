@@ -38,7 +38,10 @@ export class AuthService {
   }
 
   async validatePlayer(userName: string, pass: string): Promise<Player> {
-    const player = await this._playerService.getPlayerByUsername(userName);
+    const player = await this._playerService.getPlayerByUsername(
+      userName,
+      true,
+    );
 
     if (!player) {
       throw new ForbiddenException('user name not found');

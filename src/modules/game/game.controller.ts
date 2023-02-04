@@ -28,13 +28,21 @@ export class GameController {
     return this.service.create(createGameDto, req.user);
   }
 
-  @Get('/player/:id')
-  findGameByPlayerID(@Param('id') id: string) {
-    return this.service.getGamesByPlayerID(id);
+  @Get('/mygames')
+  findGameByPlayerID(@Req() req) {
+    return this.service.getGamesByPlayerID(req.user?.uuid);
   }
 
   @Get('/leaderboard')
   leaderboard() {
     return this.service.leaderboard();
+  }
+
+  @Get('cpu')
+  cpuChoice() {
+    return {
+      options: this.service.PLAYER_INPUT,
+      cpuChoice: this.service.pickMove(),
+    };
   }
 }

@@ -1,6 +1,5 @@
 import { INestApplication } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
@@ -17,12 +16,9 @@ import { TypeOrmExceptionFilter } from '../../utils/typeormExceptionHandler';
 import { Player } from '../player/entities/player.entity';
 import { PlayerModule } from '../player/player.module';
 import { PlayerService } from '../player/player.service';
-import { AuthModule } from './auth.module';
-import { AuthService } from './auth.service';
 
 let app: INestApplication;
-let service: AuthService;
-const PASSWORD = 'cecil_password';
+let service: PlayerService;
 
 beforeAll(async () => {
   const module: TestingModule = await Test.createTestingModule({
@@ -30,15 +26,14 @@ beforeAll(async () => {
       ConfigModule.forRoot({ isGlobal: true }),
       TypeOrmModule.forRoot(typeOrmConfigForTest()),
       TypeOrmModule.forFeature([Player]),
-      AuthModule,
       PlayerModule,
     ],
-    providers: [AuthService, PlayerService, JwtService],
+    providers: [PlayerService],
   }).compile();
 
   app = module.createNestApplication();
   app.useGlobalFilters(new TypeOrmExceptionFilter());
-  service = module.get<AuthService>(AuthService);
+  service = module.get<PlayerService>(PlayerService);
   await initDB(app.get(Connection));
 });
 afterAll(async () => {
@@ -46,30 +41,31 @@ afterAll(async () => {
   await app.close();
 });
 
-describe('AuthService', () => {
+describe('Player Service', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
-  it('should login', async () => {
-    const res = await service.login({
-      userName: basePlayerEntity.username,
-      password: PASSWORD,
-    });
-
-    expect(res.user.username).toBe(basePlayerEntity.username);
-    expect(res.user.uuid).toBeDefined();
-  });
-
-  it('should generate token', async () => {
-    const validToken = await service.generateAccessToken(
-      registeredPlayerEntity as Player,
+  it('should get player by username and return password', async () => {
+    const player = await service.getPlayerByUsername(
+      basePlayerEntity.username,
+      true,
     );
 
-    expect(typeof validToken).toBe('string');
-    expect(validToken).not.toEqual(undefined);
-    expect(validToken).not.toEqual('');
-    expect(validToken).not.toEqual(null);
-    expect(validToken.length).toBeGreaterThan(10);
+    expect(player.uuid).toBeDefined();
+    expect(player.password).toBeDefined();
+    expect(player.uuid).toEqual(registeredPlayerEntity.uuid);
+    expect(player.password).toEqual(registeredPlayerEntity.password);
+  });
+
+  it('should get player by user name and return without password', async () => {
+    const player = await service.getPlayerByUsername(
+      registeredPlayerEntity.username,
+      false,
+    );
+
+    expect(player.uuid).toBeDefined();
+    expect(player.password).not.toBeDefined();
+    expect(player.uuid).toEqual(registeredPlayerEntity.uuid);
   });
 });
