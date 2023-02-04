@@ -8,6 +8,14 @@ import { PlayerService } from './player.service';
   model: {
     type: Player,
   },
+  routes: {
+    exclude: [
+      'replaceOneBase',
+      'createManyBase',
+      'deleteOneBase',
+      'getManyBase',
+    ],
+  },
 })
 @Controller('player')
 export class PlayerController {

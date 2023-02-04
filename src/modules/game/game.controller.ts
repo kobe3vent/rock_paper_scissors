@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, UseGuards } from '@nestjs/common';
 import { GameService } from './game.service';
 import { CreateGameDto } from './dto/create-game.dto';
 import { Game } from './entities/game.entity';
@@ -16,6 +8,9 @@ import { JwtAuthGuard } from '../auth/jwt.guard';
 @Crud({
   model: {
     type: Game,
+  },
+  routes: {
+    only: ['createOneBase'],
   },
 })
 @UseGuards(JwtAuthGuard)

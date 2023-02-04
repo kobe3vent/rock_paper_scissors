@@ -4,6 +4,7 @@ import { Game } from '../../game/entities/game.entity';
 import { hash } from 'bcryptjs';
 import { CrudValidationGroups } from '@nestjsx/crud';
 import { IsOptional, IsString } from 'class-validator';
+import { Exclude } from 'class-transformer';
 
 const { UPDATE } = CrudValidationGroups;
 const SALT = 10;
@@ -16,8 +17,9 @@ export class Player extends AbstractEntity {
   username: string;
 
   @IsOptional({ groups: [UPDATE] })
-  @Column({ type: 'text', select: false })
+  @Column({ type: 'text' })
   @IsString()
+  @Exclude({ toPlainOnly: true })
   password: string;
 
   @OneToMany(() => Game, (game: Game) => game.player)

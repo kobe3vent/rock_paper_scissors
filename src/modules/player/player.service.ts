@@ -7,10 +7,9 @@ export class PlayerService extends TypeOrmCrudService<Player> {
     super(repo);
   }
 
-  getPlayerByUsername(username: string, getPassword = false): Promise<Player> {
+  getPlayerByUsername(username: string): Promise<Player> {
     return this.repo.findOne({
       where: { username },
-      select: { password: getPassword, username: true, uuid: true },
     });
   }
 }
