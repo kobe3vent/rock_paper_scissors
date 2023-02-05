@@ -26,13 +26,13 @@ export class AuthService {
   }: {
     userName: string;
     password: string;
-  }): Promise<{ user: Partial<Player>; accessToken: string }> {
+  }): Promise<{ player: Partial<Player>; accessToken: string }> {
     const player = await this.validatePlayer(userName, password);
 
     const accessToken = await this.generateAccessToken(player);
 
     return {
-      user: omit(player, ['password', 'updatedAt']),
+      player: omit(player, ['password', 'updatedAt']),
       accessToken,
     };
   }

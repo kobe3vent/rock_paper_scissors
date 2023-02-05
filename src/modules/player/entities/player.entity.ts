@@ -22,7 +22,8 @@ export class Player extends AbstractEntity {
   username: string;
 
   @ApiProperty({
-    description: 'Player password',
+    description:
+      'Player password. This is only required during signup. it doesnt display on Player object return',
   })
   @IsOptional({ groups: [UPDATE] })
   @Column({ type: 'text' })
