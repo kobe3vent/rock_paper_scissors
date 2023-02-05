@@ -17,7 +17,7 @@ import { PlayerModule } from '../player/player.module';
 import { PlayerService } from '../player/player.service';
 import { Game, MoveOptions } from './entities/game.entity';
 import { GameController } from './game.controller';
-import { GameService } from './game.service';
+import { GameService, PLAYER_INPUT } from './game.service';
 
 let app: INestApplication;
 let controller: GameController;
@@ -83,7 +83,7 @@ describe('GameController', () => {
 
   it('should show cpu is not cheating', () => {
     const res = controller.cpuChoice();
-    expect(res.options).toBe(gameService.PLAYER_INPUT);
-    expect(gameService.PLAYER_INPUT).toContain(res.cpuChoice);
+    expect(res.options).toBe(PLAYER_INPUT);
+    expect(PLAYER_INPUT).toContain(res.cpuChoice);
   });
 });

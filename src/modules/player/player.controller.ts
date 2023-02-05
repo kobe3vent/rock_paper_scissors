@@ -1,4 +1,5 @@
 import { Body, Controller, ForbiddenException, Post } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Crud } from '@nestjsx/crud';
 import { AuthService } from '../auth/auth.service';
 import { Player } from './entities/player.entity';
@@ -18,6 +19,7 @@ import { PlayerService } from './player.service';
   },
 })
 @Controller('player')
+@ApiTags('player')
 export class PlayerController {
   constructor(
     private readonly service: PlayerService,
