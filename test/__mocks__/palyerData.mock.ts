@@ -1,4 +1,3 @@
-import { MoveOptions } from '../../src/modules/game/entities/game.entity';
 import { Player } from '../../src/modules/player/entities/player.entity';
 
 export const basePlayerEntity: Partial<Player> = {
@@ -9,13 +8,4 @@ export const basePlayerEntity: Partial<Player> = {
 export const registeredPlayerEntity: Partial<Player> = {
   ...basePlayerEntity,
   uuid: '0011f7a8-e0f1-47a2-97c3-f79c17521730',
-};
-
-export const baseGameEntity = {
-  number: 1,
-  playerChoice: MoveOptions.PAPER,
-  cpuChoice: MoveOptions.ROCK,
-  playerWon: true,
-  player: registeredPlayerEntity.uuid,
-  comment: 'Player wins',
 };

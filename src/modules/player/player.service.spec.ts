@@ -47,10 +47,7 @@ describe('Player Service', () => {
   });
 
   it('should get player by username and return password', async () => {
-    const player = await service.getPlayerByUsername(
-      basePlayerEntity.username,
-      true,
-    );
+    const player = await service.getPlayerByUsername(basePlayerEntity.username);
 
     expect(player.uuid).toBeDefined();
     expect(player.password).toBeDefined();
@@ -58,14 +55,8 @@ describe('Player Service', () => {
     expect(player.password).toEqual(registeredPlayerEntity.password);
   });
 
-  it('should get player by user name and return without password', async () => {
-    const player = await service.getPlayerByUsername(
-      registeredPlayerEntity.username,
-      false,
-    );
-
-    expect(player.uuid).toBeDefined();
-    expect(player.password).not.toBeDefined();
-    expect(player.uuid).toEqual(registeredPlayerEntity.uuid);
+  it('should not find user', async () => {
+    const player = await service.getPlayerByUsername('Pablo');
+    expect(player).toBe(null);
   });
 });

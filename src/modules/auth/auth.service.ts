@@ -26,22 +26,19 @@ export class AuthService {
   }: {
     userName: string;
     password: string;
-  }): Promise<{ user: Partial<Player>; accessToken: string }> {
+  }): Promise<{ player: Partial<Player>; accessToken: string }> {
     const player = await this.validatePlayer(userName, password);
 
     const accessToken = await this.generateAccessToken(player);
 
     return {
-      user: omit(player, ['password', 'updatedAt']),
+      player: omit(player, ['password', 'updatedAt']),
       accessToken,
     };
   }
 
   async validatePlayer(userName: string, pass: string): Promise<Player> {
-    const player = await this._playerService.getPlayerByUsername(
-      userName,
-      true,
-    );
+    const player = await this._playerService.getPlayerByUsername(userName);
 
     if (!player) {
       throw new ForbiddenException('user name not found');

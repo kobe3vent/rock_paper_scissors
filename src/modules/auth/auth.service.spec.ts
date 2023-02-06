@@ -57,8 +57,8 @@ describe('AuthService', () => {
       password: PASSWORD,
     });
 
-    expect(res.user.username).toBe(basePlayerEntity.username);
-    expect(res.user.uuid).toBeDefined();
+    expect(res.player.username).toBe(basePlayerEntity.username);
+    expect(res.player.uuid).toBeDefined();
   });
 
   it('should generate token', async () => {
